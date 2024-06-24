@@ -48,7 +48,6 @@ function sub(a, b) {
 }
 */
 
-
 // Function Expression
 /*
  1. A function expression is similar to and has the same syntax as a function declaration
@@ -70,7 +69,6 @@ let s = sub(10, 20)
 console.log(tow)
 console.log(s)
 */
-
 
 // Arrow Function
 /*
@@ -144,7 +142,6 @@ Dolhins = [85, 54, 41], Koalas = [23, 34, 27];
 checkWinner(calcAverage(Dolhins), calcAverage(Koalas));
 */
 
-
 // Coding Challenge #2
 
 /*
@@ -163,7 +160,7 @@ HINT: Remember that an array needs a value in each position, and that value can 
 
 GOOD LUCK 😀
 */
-
+/*
 const calcTip = (bill) => {
     return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
 }
@@ -175,3 +172,157 @@ let tips = bills.map(bill => calcTip(bill));
 console.log("tips : ",tips.join(", "));
 let total = bills.map((bill, index) => bill + tips[index]);
 console.log("total : ",total.join(", "));
+*/
+
+// Objects
+/*
+const ahmed = {
+  firstName: "Ahmed",
+  lastName: "Mohamed",
+  age: 2021 - 2003,
+  job: "Student",
+  friends: ["Hany", "Ali", "Khaled"],
+  haslicense: false,
+  getfreinds: function () {
+    console.log(this.friends.join(", "));
+  },
+
+  getsummary: function () {
+    console.log(
+`${this.firstName} is a ${this.age} years old ${this.job},
+and he has ${this.friends.length} friends,
+and they are ${this.friends.join(", ")},
+and his best friend is called ${this.friends[0]},
+and he is ${this.haslicense ? "a" : "not"} driver.`);
+  },
+};
+
+ahmed.location = "Egypt";
+ahmed["twitter"] = "@ahmed";
+
+// challenge
+
+console.log(
+  `${ahmed.firstName} has ${ahmed.friends.length} friends, and his best friend is called ${ahmed.friends[0]}`
+);
+
+// Object Methods
+
+ahmed.getfreinds();
+ahmed.getsummary();
+*/
+
+// Coding Challenge #3
+
+/*
+Let's go back to Mark and John comparing their BMIs! This time, let's use objects to implement the calculations! Remember: BMI = mass / height ** 2 = mass / (height * height). (mass in kg and height in meter)
+
+1. For each of them, create an object with properties for their full name, mass, and height (Mark Miller and John Smith)
+2. Create a 'calcBMI' method on each object to calculate the BMI (the same method on both objects). Store the BMI value to a property, and also return it from the method.
+3. Log to the console who has the higher BMI, together with the full name and the respective BMI. Example: "John Smith's BMI (28.3) is higher than Mark Miller's (23.9)!"
+
+TEST DATA: Marks weights 78 kg and is 1.69 m tall. John weights 92 kg and is 1.95 m tall.
+
+GOOD LUCK 😀
+*/
+/*
+const john = {
+    fullName: "John Smith",
+    mass: 92,
+    hight: 1.95,
+    calcBMI: function(){
+        this.bmi = this.mass / this.hight ** 2;
+        return this.bmi;
+    }
+}
+
+const mark = {
+    fullName: "Mark Miller",
+    mass: 78,
+    hight: 1.69,
+    calcBMI: function(){
+        this.bmi = this.mass / this.hight ** 2;
+        return this.bmi;
+    }
+}
+
+console.log(`${john.fullName}'s BMI (${john.calcBMI()}) is ${john.calcBMI() > mark.calcBMI() ? "higher" : "lower"} than ${mark.fullName}'s (${mark.calcBMI()})!`);
+
+*/
+
+
+// Iteration: The for Loop
+/*
+
+const ahmed = [
+    "Ahmed",
+    "Mohamed",
+    2021 - 2003,
+    "Student",
+    ["Hany", "Ali", "Khaled"],
+    false
+];
+
+
+const types = [];
+
+
+for(let i = 0; i < ahmed.length; i++){
+    console.log(ahmed[i], typeof ahmed[i]);
+    types[i] = typeof ahmed[i];
+}
+
+console.log(types);
+*/
+
+/*
+Let's improve Steven's tip calculator even more, this time using loops!
+
+1. Create an array 'bills' containing all 10 test bill values
+2. Create empty arrays for the tips and the totals ('tips' and 'totals')
+3. Use the 'calcTip' function we wrote before (no need to repeat) to calculate tips and total values (bill + tip) for every bill value in the bills array.
+Use a for loop to perform the 10 calculations!
+
+TEST DATA: 22, 295, 176, 440, 37, 105, 10, 1100, 86 and 52
+
+HINT: Call calcTip in the loop and use the push method to add values to the tips and totals arrays 😉
+
+4. BONUS: Write a function 'calcAverage' which takes an array called 'arr' as an argument. This function calculates the average of all numbers in the given array.
+This is a DIFFICULT challenge (we haven't done this before)! Here is how to solve it:
+  4.1. First, you will need to add up all values in the array. To do the addition, start by creating a variable 'sum' that starts at 0. Then loop over the array using a for loop. In each iteration, add the current value to the 'sum' variable. This way, by the end of the loop, you have all values added together
+  4.2. To calculate the average, divide the sum you calculated before by the length of the array (because that's the number of elements)
+  4.3. Call the function with the 'totals' array
+
+GOOD LUCK 😀
+*/
+
+const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+
+const tips = [], values =[];
+
+const calcTip = (bill) => {
+    const tip = bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
+    const value = bill + tip;
+    return [tip, value];
+};
+
+for(let i = 0; i < bills.length; i++){
+    const [tip, value] = calcTip(bills[i]);
+    tips.push(tip);
+    values.push(value);
+}
+console.log(bills.join(', '));
+console.log(tips.join(', '));
+console.log(values.join(', '));
+
+const calcAverage = (arr = Array) => {
+    let sum = 0;
+    arr.forEach((element) => {
+        sum += element;
+    });
+    return sum / arr.length;
+}
+
+console.log(calcAverage(values));
+console.log(calcAverage(tips));
+console.log(calcAverage(bills));
