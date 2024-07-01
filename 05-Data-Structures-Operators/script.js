@@ -405,6 +405,7 @@ game.MoreLikelyToWin(...[team1, draw, team2]);
 
 // for-of loop
 
+/*
 // array
 const arr = [10, 20, 30, 40, 50];
 
@@ -452,3 +453,51 @@ const openingHours = {
 for (const [day, { open, close }] of Object.entries(openingHours)) {
   console.log(`On ${day}, we open at ${open} and close at ${close}`);
 }
+*/
+
+// Sets
+/*
+const arr = [1, 1, 1, 2, 3, 5, 1, 6, 4, 8, 10];
+const st = new Set(arr);
+console.log(st);
+console.log(st.has(1));
+console.log(st.has(70));
+st.add(70);
+console.log(st.has(70));
+st.delete(1);
+console.log(st.has(70));
+*/
+
+// Maps
+
+/*
+const freq = new Map();
+
+const arr = [1, 1, 1, 2, 3, 5, 1, 6, 4, 8, 10];
+
+for (const i of arr) {
+  if (freq.has(i)) freq.set(i, freq.get(i) + 1);
+  else freq.set(i, 1);
+}
+console.log(freq.get(1));
+freq.set(1, 10);
+console.log(freq.get(1));
+freq.delete(1);
+
+const question = new Map([
+  ["question", "What is the best programming language?"],
+  [1, "C"],
+  [2, "Java"],
+  [3, "Python"],
+  ["correct", 3],
+  [true, "Correct"],
+  [false, "Try Again"],
+]);
+
+let prompt_ = `${question.get("question")} \nEnter the correct answer: \n`;
+for (const [key, value] of question) {
+  if (typeof key === "number") prompt_ += `Answer ${key}: ${value}\n`;
+}
+const userAnswer = prompt(prompt_);
+console.log(question.get(question.get("correct") == userAnswer));
+*/
