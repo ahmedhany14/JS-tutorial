@@ -120,3 +120,33 @@ s.forEach((value, _, set) => {
 });
 
 */
+
+// MAP METHOD
+// used to create a new array from an existing array
+// it will not change the original array
+// new array will have elements that are returned from the callback function
+
+const a = [1000, 5521, 96325, 84125, 95269];
+
+const LOG = a.map(function (element, index) {
+  let ret = 0;
+  while (element) ++ret, (element = Math.floor(element / 2));
+  return ret;
+});
+
+console.log(...LOG);
+
+// FILTER METHOD
+const c = a.filter(function (element, index) {
+  return Math.abs(element) % 2 == index % 2;
+});
+console.log(...c);
+
+// REDUCE METHOD
+// used to reduce an array to a single value, like sum of all elements
+
+let sum = a.reduce(function (acc, element, index) {
+  return acc + element;
+}, 0);
+
+console.log(sum);
