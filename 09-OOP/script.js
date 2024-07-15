@@ -78,7 +78,7 @@ BMW.break();
 
 // Class
 
-// 1. Class definition, and constructor method
+// 1. Class definition, and constructor method, setters and getters
 
 class student {
   // constructor syntax
