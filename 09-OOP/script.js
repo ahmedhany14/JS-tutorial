@@ -80,6 +80,7 @@ BMW.break();
 
 // 1. Class definition, and constructor method, setters and getters
 
+/*
 class student {
   // constructor syntax
   constructor(firstName, lastname, birthYear, gpa) {
@@ -88,38 +89,52 @@ class student {
     this.b = birthYear;
     this.gpa = gpa;
     this.age = 2024 - this.b;
-  }
-  get name() {
-    return `${this.f} ${this.l}`;
-  }
-  get Age() {
-    return this.age;
+    this.grade = "No grade yet";
   }
 
-  get mark() {
-    if (this.gpa < 0 || this.gpa > 100 || isNaN(this.gpa)) {
-      return "Invalid GPA";
-    } else if (this.gpa >= 90) {
-      return "A";
-    } else if (this.gpa >= 80) {
-      return "B";
-    } else if (this.gpa >= 70) {
-      return "C";
-    } else if (this.gpa >= 60) {
-      return "D";
-    } else {
-      return "F";
-    }
+  // getters  
+  // used to get the value of a property
+  returns the value of the property
+
+  get get_name() {
+    return this.f + " " + this.l;
   }
 
-  // setter, will be called when we set the value
-  // used to validate the value
-  set gpa(gpa) {
-    if (gpa < 0 || gpa > 100 || isNaN(gpa)) {
-      alert("Invalid GPA");
+  get GPA() {
+    return this.gpa;
+  }
+
+  get Grade() {
+    return this.grade;
+  }
+
+  // setters
+  //used to set the value of a property
+  //takes an argument
+
+  set set_grade(value) {
+    if (value < 0 || value > 100) {
       return;
     }
-    this._gpa = gpa;
+    if (value >= 90) {
+      this.grade = "A";
+    } else if (value >= 80) {
+      this.grade = "B";
+    } else if (value >= 70) {
+      this.grade = "C";
+    } else if (value >= 60) {
+      this.grade = "D";
+    } else {
+      this.grade = "F";
+    }
+  }
+
+  // Static methods
+  // methods that are called on the class itself, not on the object
+
+
+  static hey() {
+    console.log("Hey there");
   }
 }
 
@@ -128,8 +143,54 @@ console.log(student1);
 
 // getters and setters
 // getters don't take any arguments
-console.log(student1.name);
-console.log(student1.Age);
+console.log(student1.get_name);
 
+student1.set_grade = 95;
+
+console.log(student1.Grade);
 console.log(student1);
-// setters
+
+// will work
+student.hey();
+
+//student1.hey(); // won't work
+*/
+
+// Challenge 2
+
+/*
+1- Re-create the Car class, but use ES6 class syntax this time
+2- Add a getter called 'speedUS' which returns the current speed in mi/h (divide by 1.6)
+3- Add a setter called 'speedUS' which sets the current speed in mi/h (but converts it to km/h before storing the value, by multiplying the input by 1.6)
+4- Create an instance of the Car class
+*/
+
+class Car {
+  constructor(mark, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    this.speed += 10;
+    console.log(`${this.make} is going at ${this.speed} km/h`);
+  }
+
+  break() {
+    if (this.speed - 5 < 0) {
+      console.log(`${this.make} is stopped`);
+      return;
+    }
+    this.speed -= 5;
+    console.log(`${this.make} is going at ${this.speed} km/h`);
+  }
+  // getters
+  get speedUs() {
+    return this.speed / 1.6;
+  }
+
+  // setters
+  set speedUs(speed) {
+    this.speed = speed * 1.6;
+  }
+}
