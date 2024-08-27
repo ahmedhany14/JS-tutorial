@@ -164,7 +164,7 @@ student.hey();
 3- Add a setter called 'speedUS' which sets the current speed in mi/h (but converts it to km/h before storing the value, by multiplying the input by 1.6)
 4- Create an instance of the Car class
 */
-
+/*
 class Car {
   constructor(mark, speed) {
     this.make = make;
@@ -194,3 +194,192 @@ class Car {
     this.speed = speed * 1.6;
   }
 }
+
+*/
+
+// Inheritance between "classes": ES6 classes
+
+/*
+class Person {
+  constructor(firstName, lastName, birthYear) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.birthYear = birthYear;
+  }
+
+  calcAge() {
+    return 2024 - this.birthYear;
+  }
+
+  static say_hey() {
+    console.log("Hey there");
+  }
+
+  set fullName(name) {
+    this.fullName = name;
+  }
+
+  get fullName() {
+    console.log(`my name is ${this.firstName} ${this.lastName}`);
+  }
+
+  get age() {
+    console.log(`I am ${this.calcAge()} years old`);
+  }
+}
+
+class Student extends Person {
+  constructor(firstName, lastName, birthYear, course) {
+    // super() method, used to call the constructor of the parent class and assign the values to the properties of the parent class
+    super(firstName, lastName, birthYear);
+    this.course = course;
+  }
+
+  introduce() {
+    console.log(`My name is ${this.firstName} and I study ${this.course}`);
+  }
+
+  // method overriding, if we have a method in the parent class and we want to change it in the child class
+  // we can do that by creating a method with the same name in the child class, and it will called from the child class
+  calcAge() {
+    return 2024 - this.birthYear;
+  }
+}
+
+const student1 = new Student("Ahmed", "hany", 2003, "Computer Science");
+
+student1.introduce();
+
+console.log(student1.calcAge());
+
+*/
+
+// Objec Inheritance: Object.create()
+
+/*
+const personObj = {
+  init(firstName, lastName, birthYear) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.birthYear = birthYear;
+  },
+  calcAge() {
+    return 2024 - this.birthYear;
+  },
+
+  get_name() {
+    return this.firstName + " " + this.lastName;
+  },
+  get_age() {
+    return this.calcAge();
+  },
+};
+
+const ahmedPerson = Object.create(personObj);
+ahmedPerson.init("Ahmed", "Ali", 1990);
+
+const studentObj = Object.create(personObj);
+
+studentObj.init = function (firstName, lastName, birthYear, course) {
+  personObj.init.call(this, firstName, lastName, birthYear);
+  this.course = course;
+};
+
+studentObj.introduce = function () {
+  console.log(`My name is ${this.get_name()} and I study ${this.course}`);
+};
+
+const hany_student = Object.create(studentObj);
+hany_student.init("Hany", "Ali", 2000, "Computer Science");
+console.log(hany_student.get_age());
+hany_student.introduce();
+//ahmedPerson.introduce(); // error
+
+console.log(ahmedPerson.get_age());
+
+*/
+
+class Bank_account {
+  // prive properties
+
+  #movements = [];
+  #pin;
+
+  constructor(owner_name, balance, pin) {
+    this.owner_name = owner_name;
+    this.balance = balance;
+
+    // This is a public property, we can access it directly
+    //this.pin = pin;
+    //this.movements = [];
+
+    // protected property, we can't access it directly, but we can access it through a method
+    //this._pin = pin;
+    //this._movements = [];
+
+    this.#pin = pin;
+  }
+
+  withdraw(amount) {
+    if (this.balance >= amount) {
+      this.balance -= amount;
+      this.#movements.push(-amount);
+    } else {
+      return "Insufficient balance";
+    }
+
+    // return this to make the method chainable
+    return this;
+  }
+  drposit(amount) {
+    this.balance += amount;
+    this.#movements.push(amount);
+
+    // return this to make the method chainable
+    return this;
+  }
+
+  /*
+  _approveLoan(amount) {
+    if (amount > 0.1 * this.balance) {
+      return false;
+    }
+    return true;
+  }
+    */
+  requestLoan(amount) {
+    if (this.#approveLoan(amount)) {
+      this.drposit(amount);
+      console.log("Loan approved");
+    } else {
+      console.log("Loan denied");
+    }
+    // return this to make the method chainable
+    return this;
+  }
+
+  // privet methods
+
+  #approveLoan(amount) {
+    if (amount > 0.1 * this.balance) {
+      return false;
+    }
+    return true;
+    // return this to make the method chainable
+    return this;
+  }
+}
+
+const acc1 = new Bank_account("Ahmed", 1000, 1234);
+
+acc1.drposit(200);
+acc1.requestLoan(50);
+acc1.requestLoan(1000);
+
+// we have a problem, which is we can access the balance directly and change it so we need to make it private
+//console.log(acc1.pin); // we still can access it, but at least we know that it's a protected property
+//console.log(acc1.#pin); // error, we can't access it
+
+// Chining methods
+acc1.drposit(300).drposit(500).withdraw(200).requestLoan(1000).withdraw(500);
+console.log(acc1);
