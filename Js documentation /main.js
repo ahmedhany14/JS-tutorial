@@ -55,3 +55,6 @@ try {
 5) for...in: A statement that iterates over the enumerable properties of an object, in arbitrary order.
 6) for...of: A statement that iterates over the iterable objects (including Array, Map, Set, arguments object and so on), invoking a custom iteration hook with statements to be executed for the value of each distinct property.
 */
+
+
+// 4. Functions
