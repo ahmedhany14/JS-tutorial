@@ -56,5 +56,29 @@ try {
 6) for...of: A statement that iterates over the iterable objects (including Array, Map, Set, arguments object and so on), invoking a custom iteration hook with statements to be executed for the value of each distinct property.
 */
 
-
 // 4. Functions
+
+/*
+1) declaration: A function definition (also called a function declaration, or function statement).
+    has a name, parameters, and a body.
+
+2) expression: A function expression is similar to and has the same syntax as a function declaration.
+    this is a function that is assigned to a variable, has no name, takes parameters, and has a body.
+
+3) arrow function: An arrow function expression is a compact alternative to a traditional function expression, but is limited and can't be used in all situations.
+*/
+
+// Function declaration
+function sum(x, y) {
+  return x + y;
+}
+
+// Function expression
+
+const factorial = function (x) {
+  if (x <= 1) return 1;
+  return x * factorial(x - 1);
+};
+
+// Arrow function
+const multiply = (x, y) => x * y;
