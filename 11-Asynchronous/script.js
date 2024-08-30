@@ -6,7 +6,7 @@ const countriesContainer = document.querySelector(".countries");
 const xml_request = new XMLHttpRequest();
 
 const render = function (joson_data, className = "") {
-  console.log(joson_data);
+  //console.log(joson_data);
   const html = `
     <article class="country ${className}">
       <img class="country__img" src="${joson_data.flags.png}"/>
@@ -109,7 +109,7 @@ to solve this problem we can use Promises and Async/Await.
   - we can attach callbacks to handle the success or failure of the operation.
   - Promises are chainable and can handle multiple asynchronous operations.
 */
-
+/*
 const getDataPromise = function (county_name) {
   fetch(`https://restcountries.com/v3.1/name/${county_name}`)
     .then((response) => {
@@ -121,4 +121,43 @@ const getDataPromise = function (county_name) {
     });
 };
 getDataPromise("usa");
+*/
 
+// 4) Chaining Promises
+/*
+  - we can chain multiple promises to make a sequence of asynchronous operations.
+  - we can return a promise from a then handler to create a chain.
+*/
+
+/*
+const ChainingPromises = function (county_name) {
+  fetch(`https://restcountries.com/v3.1/name/${county_name}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((joson_data) => {
+      //console.log(joson_data[0]);
+      render(joson_data[0]);
+
+      const joson_data_neighbours = [];
+      joson_data[0].borders.forEach((neighbour) => {
+        joson_data_neighbours.push(
+          fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`)
+            .then((response) => response.json())
+            .then((data) => data[0])
+        );
+      });
+      return Promise.all(joson_data_neighbours);
+    })
+    .then((joson_data_neighbours) => {
+      console.log(joson_data_neighbours);
+      joson_data_neighbours.forEach((neighbour) => {
+        console.log(neighbour);
+        render(neighbour, "neighbour");
+      });
+    });
+};
+
+ChainingPromises("spain");
+
+*/
