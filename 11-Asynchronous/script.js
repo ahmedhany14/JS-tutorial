@@ -74,7 +74,6 @@ const get_dataAnd_nie = function (county_name) {
     const [joson_data] = JSON.parse(this.responseText);
     // Get parent country data
     render(joson_data);
-
     // Get neighbor countries data
     const neighbors = joson_data.borders;
 
@@ -89,7 +88,6 @@ const get_dataAnd_nie = function (county_name) {
 
       xml_request2.addEventListener("load", function () {
         const [joson_data2] = JSON.parse(this.responseText);
-        console.log(joson_data2);
 
         render(joson_data2, "neighbour");
       });
@@ -98,3 +96,8 @@ const get_dataAnd_nie = function (county_name) {
 };
 
 get_dataAnd_nie("usa");
+
+/*
+Callback gell makes code harder to read and maintain.
+to solve this problem we can use Promises and Async/Await.
+*/
