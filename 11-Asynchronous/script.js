@@ -1,6 +1,7 @@
 "use strict";
 
 // 1) AJAX Call, XMLHttpRequest
+const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
 
 const xml_request = new XMLHttpRequest();
@@ -24,7 +25,7 @@ const render = function (joson_data, className = "") {
     `;
 
   countriesContainer.insertAdjacentHTML("beforeend", html);
-  countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 3;
 };
 
 /*
@@ -159,5 +160,65 @@ const ChainingPromises = function (county_name) {
 };
 
 ChainingPromises("spain");
+
+*/
+
+// 5) Handling Rejected Promises and Errors
+/*
+const ChainingPromises = function (county_name) {
+  fetch(`https://restcountries.com/v3.1/name/${county_name}`)
+    .then((response) => {
+      // check if the response is ok
+      if (!response.ok) {
+        throw new Error(`Country not found ${response.status}`);
+      }
+
+      return response.json();
+    })
+    .then((joson_data) => {
+      //console.log(joson_data[0]);
+      render(joson_data[0]);
+
+      const joson_data_neighbours = [];
+
+      if (joson_data[0].borders === undefined) {
+        return [];
+      }
+
+      joson_data[0].borders.forEach((neighbour) => {
+        joson_data_neighbours.push(
+          fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`Country not found ${response.status}`);
+              }
+              return response.json();
+            })
+            .then((data) => data[0])
+        );
+      });
+
+      return Promise.all(joson_data_neighbours);
+    })
+    .then((joson_data_neighbours) => {
+      joson_data_neighbours.forEach((neighbour) => {
+        console.log(neighbour);
+        render(neighbour, "neighbour");
+      });
+    })
+    .catch((err) => {
+      // catch any error in the chain of promises
+      console.error(`${err}`);
+      //alert(`Something went wrong ${err.message}. Try again!`);
+      //Error(`Something went wrong ${err.message}. Try again!`);
+    })
+    .finally(() => {
+      console.log("finally success");
+    });
+};
+
+btn.addEventListener("click", function () {
+  ChainingPromises("australia");
+});
 
 */
