@@ -57,7 +57,7 @@ console.log("hello");
   is a way to make nested callbacks, which makes the code harder to read and maintain.
   by making nested sequence of asynchronous operations.
 */
-
+/*
 const get_dataAnd_nie = function (county_name) {
   try {
     xml_request.open(
@@ -96,8 +96,29 @@ const get_dataAnd_nie = function (county_name) {
 };
 
 get_dataAnd_nie("usa");
-
+*/
 /*
 Callback gell makes code harder to read and maintain.
 to solve this problem we can use Promises and Async/Await.
 */
+
+// 3) Promises
+/*
+  - A promise is an object representing the eventual completion or failure of an asynchronous operation.
+  - we can call it as a container for a feature value that may not be available yet.
+  - we can attach callbacks to handle the success or failure of the operation.
+  - Promises are chainable and can handle multiple asynchronous operations.
+*/
+
+const getDataPromise = function (county_name) {
+  fetch(`https://restcountries.com/v3.1/name/${county_name}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((joson_data) => {
+      console.log(joson_data[0]);
+      render(joson_data[0]);
+    });
+};
+getDataPromise("usa");
+
