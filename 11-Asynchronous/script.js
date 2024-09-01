@@ -248,6 +248,7 @@ TEST COORDINATES 2: 19.037, 72.873
 TEST COORDINATES 2: -33.933, 18.474
 */
 
+/*
 function whereAmI(lat, lng) {
   fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
     .then((response) => {
@@ -272,13 +273,11 @@ function whereAmI(lat, lng) {
       render(data[0]);
     })
     .catch((err) => {
-      console.error(`fe kosom error ${err.}`);
+      console.error(`fe kosom error ${err.message}`);
     })
     .finally(() => {
       console.log("everything is ok");
     });
-
-  return;
 }
 
 btn.addEventListener("click", function () {
@@ -294,3 +293,81 @@ btn.addEventListener("click", function () {
   lng = 18.474;
   whereAmI(lat, lng);
 });
+
+*/
+
+// 6) Promises
+// building promises
+
+// 1. Simple Promise (lottery example)
+
+/*
+Promise object is a constructor that takes a function as an argument.
+inside the function we have two parameters resolve and reject.
+resolve is a function that we call when the promise is successful.
+reject is a function that we call when the promise is failed.
+*/
+
+const lottery = new Promise(function (resolve, reject) {
+  console.log("Game is starting");
+
+  setTimeout(function () {
+    let rand = Math.random();
+    if (rand >= 0.5) {
+      // success
+      resolve("fullfilled promise " + rand);
+    } else {
+      // fail
+      reject(new Error("rejected promise " + rand));
+    }
+  }, 2000);
+});
+
+lottery
+  .then((Response) => {
+    console.log(Response);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+console.log("i not asynchronous");
+
+// Creating a wait function
+
+const wait = function (seconds) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(resolve("you wait for " + seconds + "seconds"), seconds * 1000);
+  });
+};
+wait(3)
+  .then((res) => {
+    console.log(res);
+    return wait(2);
+  })
+  .then((res) => {
+    console.log(res);
+    return wait(1);
+  })
+  .then((res) => {
+    console.log(res);
+  })
+  .finally(() => {
+    console.log("wainting done");
+  });
+
+/*
+
+the example above is like the following:
+setTimeout(() => {
+  console.log("you wait for 1 seconds");
+  setTimeout(() => {
+  console.log("you wait for 2 seconds");
+    setTimeout(() => {
+  console.log("you wait for 3 seconds");
+    }, 1000);
+  }, 1000);
+});
+
+instead of using nested setTimeout we can use promises to make the code more readable and maintainable.
+*/
