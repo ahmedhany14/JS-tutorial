@@ -308,6 +308,7 @@ resolve is a function that we call when the promise is successful.
 reject is a function that we call when the promise is failed.
 */
 
+/*
 const lottery = new Promise(function (resolve, reject) {
   console.log("Game is starting");
 
@@ -355,7 +356,7 @@ wait(3)
   .finally(() => {
     console.log("wainting done");
   });
-
+*/
 /*
 
 the example above is like the following:
@@ -371,3 +372,73 @@ setTimeout(() => {
 
 instead of using nested setTimeout we can use promises to make the code more readable and maintainable.
 */
+
+// 7) Promisifying geolocation API
+
+// basic way to get the current location
+/*
+navigator.geolocation.getCurrentPosition(
+  (position) => console.log(position),
+  (err) => console.error("Error founded" + err.message)
+);
+*/
+
+// Promisifying the geolocation API
+
+const getPoss = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => resolve(position), // success
+      (err) => reject(err) // fail
+    );
+  });
+};
+
+getPoss()
+  .then((pos) => console.log(pos))
+  .catch((err) => console.error("Error founded" + err.message));
+
+console.log("blablablablablabla");
+
+// Rendering the current location
+
+function whereAmI() {
+  getPoss()
+    .then((response) => {
+      console.log(response);
+      const { latitude: lat, longitude: lng } = response.coords;
+      console.log(lat, lng);
+      return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    })
+    .then((response) => {
+      if (response.ok == false) {
+        throw new Error(`Country not found ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      console.log(`You are in ${data.city} , ${data.country}`);
+      return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+    })
+    // Fethc country data and render it
+    .then((response) => {
+      if (response.ok == false) {
+        throw new Error(`Country not found ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      render(data[0]);
+    })
+    .catch((err) => {
+      console.error(`fe kosom error ${err.message}`);
+    })
+    .finally(() => {
+      console.log("everything is ok");
+    });
+}
+
+btn.addEventListener("click", function () {
+  whereAmI();
+});
