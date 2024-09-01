@@ -385,6 +385,7 @@ navigator.geolocation.getCurrentPosition(
 
 // Promisifying the geolocation API
 
+/*
 const getPoss = function () {
   return new Promise(function (resolve, reject) {
     navigator.geolocation.getCurrentPosition(
@@ -442,3 +443,64 @@ function whereAmI() {
 btn.addEventListener("click", function () {
   whereAmI();
 });
+
+*/
+
+// 8) Coding Challenge #2
+
+/*
+Build the image loading functionality that I just showed you on the screen.
+
+*/
+
+const wait = function (seconds) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(resolve("you wait for " + seconds + "seconds"), seconds * 1000);
+  });
+};
+
+const imgContainer = document.querySelector(".images");
+
+const creatImage = function (img_path) {
+  return new Promise(function (resolve, reject) {
+    // resolve the promise when the image is loaded
+    const img = document.createElement("img");
+    img.src = img_path;
+    img.addEventListener("load", function () {
+      imgContainer.append(img);
+      resolve(img);
+    });
+    // reject the promise when the image is not loaded, and Error message that the image is not loaded.
+
+    img.addEventListener("error", function () {
+      reject(new Error("Image not loaded"));
+    });
+  });
+};
+
+let currentImg;
+
+creatImage("images/img-1.jpg")
+  .then((img) => {
+    currentImg = img;
+    console.log("image 1 loaded");
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = "none"; // hide the image
+    return creatImage("images/img-2.jpg");
+  })
+  .then((img) => {
+    currentImg = img;
+    console.log("image 2 loaded");
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = "none"; // hide the image
+  })
+  .finally(() => {
+    console.log("everything is done");
+  })
+  .catch((err) => {
+    console.error(err.message);
+  });
