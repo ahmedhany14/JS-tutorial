@@ -452,7 +452,7 @@ btn.addEventListener("click", function () {
 Build the image loading functionality that I just showed you on the screen.
 
 */
-
+/*
 const wait = function (seconds) {
   return new Promise(function (resolve, reject) {
     setTimeout(resolve("you wait for " + seconds + "seconds"), seconds * 1000);
@@ -504,3 +504,46 @@ creatImage("images/img-1.jpg")
   .catch((err) => {
     console.error(err.message);
   });
+*/
+
+// 9) Async/Await
+
+/*
+  it is a special syntax to work with promises in a more comfortable way.
+  it makes the code more readable and maintainable.
+  Async/Await is the same as promises but in a more readable way.
+ */
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => resolve(position), // success
+      (err) => reject(err) // fail
+    );
+  });
+};
+
+async function whereAmI() {
+  const response = await getPosition();
+
+  const { latitude: lat, longitude: lng } = response.coords;
+  console.log(lat, lng);
+
+  const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+
+  const data = await resGeo.json();
+  console.log(data);
+
+  console.log(`You are in ${data.city} , ${data.country}`);
+
+  const resCountry = await fetch(
+    `https://restcountries.com/v3.1/name/${data.country}`
+  );
+  const dataCountry = await resCountry.json();
+
+  console.log(dataCountry[0]);
+
+  render(dataCountry[0]);
+}
+
+whereAmI();
