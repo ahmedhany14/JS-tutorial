@@ -506,7 +506,7 @@ creatImage("images/img-1.jpg")
   });
 */
 
-// 9) Async/Await
+// 9) Async/Await and Handling errors with try catch
 
 /*
   it is a special syntax to work with promises in a more comfortable way.
@@ -524,26 +524,35 @@ const getPosition = function () {
 };
 
 async function whereAmI() {
-  const response = await getPosition();
+  try {
+    const response = await getPosition();
 
-  const { latitude: lat, longitude: lng } = response.coords;
-  console.log(lat, lng);
+    const { latitude: lat, longitude: lng } = response.coords;
+    console.log(lat, lng);
 
-  const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
 
-  const data = await resGeo.json();
-  console.log(data);
+    if (resGeo.status != 200) throw new Error("Problem getting location data");
 
-  console.log(`You are in ${data.city} , ${data.country}`);
+    const data = await resGeo.json();
+    console.log(data);
 
-  const resCountry = await fetch(
-    `https://restcountries.com/v3.1/name/${data.country}`
-  );
-  const dataCountry = await resCountry.json();
+    console.log(`You are in ${data.city} , ${data.country}`);
 
-  console.log(dataCountry[0]);
+    const resCountry = await fetch(
+      `https://restcountries.com/v3.1/name/${data.country}`
+    );
 
-  render(dataCountry[0]);
+    if (resCountry.status != 200) throw new Error("Country not found");
+
+    const dataCountry = await resCountry.json();
+
+    console.log(dataCountry[0]);
+
+    render(dataCountry[0]);
+  } catch (err) {
+    console.error(`${err.message}`);
+  }
 }
 
 whereAmI();
