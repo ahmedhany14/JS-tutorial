@@ -514,6 +514,7 @@ creatImage("images/img-1.jpg")
   Async/Await is the same as promises but in a more readable way.
  */
 
+/*
 const getPosition = function () {
   return new Promise(function (resolve, reject) {
     navigator.geolocation.getCurrentPosition(
@@ -528,16 +529,16 @@ async function whereAmI() {
     const response = await getPosition();
 
     const { latitude: lat, longitude: lng } = response.coords;
-    console.log(lat, lng);
+    // console.log(lat, lng);
 
     const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
 
     if (resGeo.status != 200) throw new Error("Problem getting location data");
 
     const data = await resGeo.json();
-    console.log(data);
+    // console.log(data);
 
-    console.log(`You are in ${data.city} , ${data.country}`);
+    // console.log(`You are in ${data.city} , ${data.country}`);
 
     const resCountry = await fetch(
       `https://restcountries.com/v3.1/name/${data.country}`
@@ -547,12 +548,64 @@ async function whereAmI() {
 
     const dataCountry = await resCountry.json();
 
-    console.log(dataCountry[0]);
+    // console.log(dataCountry[0]);
 
     render(dataCountry[0]);
+
+    return `You are in ${data.city} , ${data.country}`;
   } catch (err) {
     console.error(`${err.message}`);
   }
 }
 
-whereAmI();
+console.log("1: Will get location");
+
+(async function () {
+  try {
+    const response = await whereAmI();
+    console.log(`2: ${response}`);
+    console.log("3: Finished getting location");
+  } catch (err) {
+    console.error(err.message);
+  }
+})();
+
+*/
+
+// 10) Running Promises in Parallel
+
+async function get_json(url) {
+  return fetch(url).then((response) => {
+    if (response.ok == false) {
+      throw new Error(`Country not found ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+async function getCounties(c1, c2, c3) {
+  try {
+    // In this way, we wait for the first promise to be resolved before starting the second one.
+
+    /*
+    const [data1] = await get_json(`https://restcountries.com/v3.1/name/${c1}`);
+    const [data2] = await get_json(`https://restcountries.com/v3.1/name/${c2}`);
+    const [data3] = await get_json(`https://restcountries.com/v3.1/name/${c3}`);
+    console.log([data1.capital, data2.capital, data3.capital]);
+    */
+    // Parallel promises
+    const data = await Promise.all([
+      get_json(`https://restcountries.com/v3.1/name/${c1}`),
+      get_json(`https://restcountries.com/v3.1/name/${c2}`),
+      get_json(`https://restcountries.com/v3.1/name/${c2}`),
+    ]);
+
+    for (let d of data) {
+      console.log(d[0].capital);
+    }
+  } catch (err) {
+    console.error(err.message);
+  }
+}
+
+getCounties("usa", "canada", "egypt");
