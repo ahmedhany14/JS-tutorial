@@ -682,3 +682,55 @@ Promise.any([
     console.error(Error.message);
   });
 */
+
+// Coding Challenge #3
+
+/* 
+PART 1
+Write an async function 'loadNPause' that recreates Coding Challenge #2, this time using async/await (only the part where the promise is consumed).
+Compare the two versions, think about the big differences, and see which one you like more.
+Don't forget to test the error handler, and to set the network speed to 'Fast 3G' in the dev tools Network tab.
+
+*/
+
+const imgContainer = document.querySelector(".images");
+
+const creatImage = function (img_path) {
+  return new Promise(function (resolve, reject) {
+    // resolve the promise when the image is loaded
+    const img = document.createElement("img");
+    img.src = img_path;
+    img.addEventListener("load", function () {
+      imgContainer.append(img);
+      resolve(img);
+    });
+    // reject the promise when the image is not loaded, and Error message that the image is not loaded.
+
+    img.addEventListener("error", function () {
+      reject(new Error("Image not loaded"));
+    });
+  });
+};
+
+const wait = function (sec) {
+  return new Promise((resolve) => setTimeout(resolve, sec * 1000));
+};
+
+const LoadImages = async function () {
+  try {
+    let img = creatImage("images/img-1.jpg");
+    console.log("Image 1 loaded");
+    await wait(3);
+    img = creatImage("images/img-2.jpg");
+    console.log("Image 2 loaded");
+    console.log(img);
+    await wait(3);
+    img = creatImage("images/img-3.jpg");
+    console.log("Image 3 loaded");
+    console.log(img);
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+LoadImages();
