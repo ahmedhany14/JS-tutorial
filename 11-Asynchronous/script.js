@@ -582,22 +582,20 @@ async function get_json(url) {
     return response.json();
   });
 }
-
+/*
 async function getCounties(c1, c2, c3) {
   try {
     // In this way, we wait for the first promise to be resolved before starting the second one.
 
-    /*
-    const [data1] = await get_json(`https://restcountries.com/v3.1/name/${c1}`);
-    const [data2] = await get_json(`https://restcountries.com/v3.1/name/${c2}`);
-    const [data3] = await get_json(`https://restcountries.com/v3.1/name/${c3}`);
-    console.log([data1.capital, data2.capital, data3.capital]);
-    */
+//    const [data1] = await get_json(`https://restcountries.com/v3.1/name/${c1}`);
+//    const [data2] = await get_json(`https://restcountries.com/v3.1/name/${c2}`);
+//    const [data3] = await get_json(`https://restcountries.com/v3.1/name/${c3}`);
+//    console.log([data1.capital, data2.capital, data3.capital]);
     // Parallel promises
     const data = await Promise.all([
       get_json(`https://restcountries.com/v3.1/name/${c1}`),
       get_json(`https://restcountries.com/v3.1/name/${c2}`),
-      get_json(`https://restcountries.com/v3.1/name/${c2}`),
+      get_json(`https://restcountries.com/v3.1/name/${c3}`),
     ]);
 
     for (let d of data) {
@@ -609,3 +607,78 @@ async function getCounties(c1, c2, c3) {
 }
 
 getCounties("usa", "canada", "egypt");
+*/
+
+// 11) Other promise combin (race, allSettled andd any)
+
+// 1. race:
+// the first promise that is fullfilled or rejected will be returned as a promise.
+// it is usefull when we have a promise that takes a long time to be resolved and we want to get the result as soon as possible.
+// we can put a wait function with it to insure that the promise will be resolved after a specific time.
+/*
+(async function () {
+  const response = await Promise.race([
+    get_json(`https://restcountries.com/v3.1/name/canada`),
+    get_json(`https://restcountries.com/v3.1/name/usa`),
+    get_json(`https://restcountries.com/v3.1/name/egypt`),
+  ]);
+
+  console.log(response[0].name);
+})();
+*/
+// time out function and to long to resolve promise
+/*
+const timeOut = function (sec) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(() => {
+      reject(new Error("Time out"));
+    }, sec * 1000);
+  });
+};
+
+(async function () {
+  try {
+    const response = await Promise.race([
+      timeOut(1.5),
+      get_json(`https://restcountries.com/v3.1/name/usa`),
+    ]);
+
+    console.log(response[0]);
+  } catch (err) {
+    console.log(err.message);
+  }
+})();
+*/
+// 2. allSettled
+//  like all methode but it return all results, and if there are any rejected promisies return it also
+/*
+Promise.allSettled([
+  get_json(`https://restcountries.com/v3.1/name/canada`),
+  get_json(`https://restcountries.com/v3.1/name/usa`),
+  get_json(`https://restcountries.com/v3.1/name/egypt112`),
+])
+  .then((response) => {
+    for (let res in response) {
+      console.log(response[res].status);
+    }
+  })
+  .catch((Error) => {
+    console.error(Error.message);
+  });
+*/
+
+// 3. any
+// Like race but it return the first fullfilled promise and ignore the rejected ones.
+/*
+Promise.any([
+  get_json(`https://restcountries.com/v3.1/name/canada`),
+  get_json(`https://restcountries.com/v3.1/name/usa`),
+  get_json(`https://restcountries.com/v3.1/name/egypt`),
+])
+  .then((response) => {
+    console.log(response[0]);
+  })
+  .catch((Error) => {
+    console.error(Error.message);
+  });
+*/
