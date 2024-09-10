@@ -18,6 +18,7 @@
   "homepage": "https://github.com/ahmedhany14/JS-tutorial#readme",
   "dependencies": {
     "leaflet": "^1.9.4",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "parcel": "^2.12.0"
   }
 }

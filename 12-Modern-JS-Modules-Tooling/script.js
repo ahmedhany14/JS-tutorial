@@ -23,7 +23,11 @@ console.log(ShoppingCart.car[0].product);
 
 // Importing default export from module lodash
 
-import cloneDeep from "../node_modules/lodash-es/cloneDeep.js";
+// import wthiout alias
+//import cloneDeep from "../node_modules/lodash-es/cloneDeep.js";
+
+// import with alias by ruuing it by parcel
+import { cloneDeep } from "lodash-es";
 
 const ahmed = {
   name: "Ahmed",
