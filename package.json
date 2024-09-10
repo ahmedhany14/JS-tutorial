@@ -1,0 +1,23 @@
+{
+  "name": "js-tutorial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmedhany14/JS-tutorial.git"
+  },
+  "author": "Ahemd hany",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahmedhany14/JS-tutorial/issues"
+  },
+  "homepage": "https://github.com/ahmedhany14/JS-tutorial#readme",
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "lodash-es": "^4.17.21"
+  }
+}
